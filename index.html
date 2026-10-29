@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un mundo para todos | Situación de aprendizaje</title>
+<style>
+:root {
+  --azul: #193557;
+  --azul2: #315b78;
+  --crema: #faf7f0;
+  --dorado: #d5a64a;
+  --texto: #25364b;
+  --borde: #d9e1e8;
+  --blanco: #fff;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #eef1f4;
+  color: var(--texto);
+  line-height: 1.65;
+}
+.hero {
+  background: linear-gradient(115deg, var(--azul), var(--azul2));
+  color: white;
+  padding: 42px 22px 35px;
+}
+.hero-inner, main, footer { max-width: 1000px; margin: auto; }
+.eyebrow {
+  color: #f3cb7c;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+h1 { font-size: clamp(29px, 5vw, 43px); line-height: 1.15; margin: 12px 0; }
+.hero p { max-width: 760px; margin: 8px 0; color: #e8edf5; }
+.pill {
+  display: inline-block;
+  background: #ffffff1c;
+  border: 1px solid #ffffff55;
+  padding: 5px 11px;
+  border-radius: 20px;
+  margin: 12px 5px 0 0;
+  font-size: 12px;
+}
+nav {
+  max-width: 1000px;
+  margin: 16px auto;
+  padding: 0 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+nav button, .btn {
+  border: 1px solid var(--borde);
+  background: white;
+  color: var(--azul);
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+nav button.active, nav button:hover, .btn.primary {
+  background: var(--azul);
+  color: white;
+}
+main { padding: 0 10px 35px; }
+.panel {
+  display: none;
+  background: white;
+  border: 1px solid #e4e6e8;
+  border-radius: 16px;
+  padding: clamp(18px, 4vw, 30px);
+  box-shadow: 0 3px 12px #1c34500a;
+}
+.panel.active { display: block; }
+h2 { color: var(--azul); font-size: 25px; margin: 0 0 8px; }
+h3 { color: var(--azul); font-size: 18px; margin: 0 0 8px; }
+h4 { margin: 0 0 7px; color: var(--azul); }
+.intro { color: #65758a; margin-top: 0; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 13px;
+  margin: 20px 0;
+}
+.card {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 18px;
+  background: white;
+}
+.card.soft { background: var(--crema); border-color: #eee4cf; }
+.card.blue { background: #f0f5fa; }
+.card .emoji { font-size: 27px; margin-bottom: 6px; }
+.callout {
+  background: var(--crema);
+  border-left: 5px solid var(--dorado);
+  padding: 17px 19px;
+  border-radius: 0 10px 10px 0;
+  margin: 17px 0;
+}
+.tag {
+  display: inline-block;
+  border-radius: 15px;
+  background: #eaf0f6;
+  padding: 4px 9px;
+  font-size: 12px;
+  margin: 3px 3px 3px 0;
+}
+.session {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.session summary {
+  padding: 16px;
+  background: #f7f9fb;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--azul);
+}
+.session-content { padding: 18px; }
+.session-content p { margin-top: 6px; }
+ul, ol { padding-left: 22px; }
+li { margin: 5px 0; }
+.activity {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 14px 0;
+}
+.options { display: grid; gap: 9px; margin: 13px 0; }
+.answer {
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  padding: 11px 13px;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  color: var(--texto);
+  font: inherit;
+}
+.answer:hover { background: #f0f5fa; }
+.feedback { margin-top: 10px; font-weight: bold; min-height: 24px; }
+.good { color: #237449; }
+.bad { color: #a44436; }
+.checklist label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-bottom: 1px solid #edf0f2;
+  padding: 10px 0;
+  cursor: pointer;
+}
+input[type=checkbox] { margin-top: 6px; accent-color: var(--azul); }
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  font: inherit;
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  resize: vertical;
+}
+.small { font-size: 13px; color: #65758a; }
+footer { text-align: center; padding: 20px; color: #66768a; font-size: 13px; }
+button:focus-visible, summary:focus-visible, a:focus-visible {
+  outline: 3px solid #d5a64a; outline-offset: 3px;
+}
+@media(max-width:600px) {
+  .hero { padding: 30px 18px; }
+  nav { padding: 0 12px; }
+  nav button { flex: 1 1 42%; }
+  main { padding: 0 10px 25px; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Educación Infantil · Aprender juntos</div>
+    <h1>Un mundo para todos:<br>¡la IA nos ayuda a crear!</h1>
+    <p>Una aventura para descubrir que todas las personas somos diferentes, que cada una tiene sus fortalezas y que juntos podemos construir un mundo más inclusivo.</p>
+    <span class="pill">Segundo ciclo de Infantil</span>
+    <span class="pill">4-5 años</span>
+    <span class="pill">5 sesiones</span>
+  </div>
+</header>
+
+<nav aria-label="Navegación principal">
+  <button class="active" data-tab="inicio">① Presentación</button>
+  <button data-tab="propuesta">② Propuesta</button>
+  <button data-tab="actividades">③ Actividades</button>
+  <button data-tab="evaluacion">④ Evaluación</button>
+  <button data-tab="anexos">⑤ Anexos</button>
+  <button data-tab="reflexion">⑥ Reflexión</button>
+</nav>
+
+<main>
+
+<section class="panel active" id="inicio">
+  <h2>Todos somos diferentes, todos contamos</h2>
+  <p class="intro">Presentación de la situación de aprendizaje</p>
+
+  <div class="callout">
+    <h3>🌈 El reto de nuestra clase</h3>
+    <p>¿Podemos crear un cuento en el que todos los personajes tengan un lugar, puedan participar y reciban la ayuda que necesitan?</p>
+    <p>Nos convertiremos en un equipo creativo que aprenderá a valorar las diferencias, expresar emociones y diseñar soluciones para que nadie se quede fuera.</p>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <div class="emoji">👧🏽🧒🏻</div>
+      <h3>¿A quién va dirigida?</h3>
+      <p>Niños y niñas de 4-5 años, segundo ciclo de Educación Infantil. Propuesta adaptable a las características y necesidades del grupo.</p>
+    </article>
+    <article class="card">
+      <div class="emoji">🤝</div>
+      <h3>¿Qué aprenderemos?</h3>
+      <p>A reconocer nuestras diferencias, cooperar, expresar emociones, respetar distintos ritmos y proponer formas de ayudar.</p>
+    </article>
+    <article class="card">
+      <div class="emoji">🤖</div>
+      <h3>¿Qué papel tiene la IA?</h3>
+      <p>La utiliza el docente para preparar cuentos, pictogramas, imágenes y materiales adaptados. Las decisiones educativas siguen siendo humanas.</p>
+    </article>
+  </div>
+
+  <h3>El producto final</h3>
+  <div class="grid">
+    <div class="card soft">
+      <h4>📖 Un cuento colectivo inclusivo</h4>
+      <p>Una historia protagonizada por personajes diferentes que colaboran para superar un reto.</p>
+    </div>
+    <div class="card soft">
+      <h4>🎨 Un mural compartido</h4>
+      <p>«En nuestra clase cabemos todos», con dibujos, aportaciones y acuerdos del grupo.</p>
+    </div>
+  </div>
+  <button class="btn primary" onclick="showTab('propuesta')">Explorar la propuesta →</button>
+</section>
+
+<section class="panel" id="propuesta">
+  <h2>Diseñamos una experiencia inclusiva</h2>
+  <p class="intro">Contexto, áreas, finalidad y metodología</p>
+
+  <h3>1. Áreas de aprendizaje</h3>
+  <div class="grid">
+    <article class="card blue">
+      <h4>💛 Crecimiento en Armonía</h4>
+      <p>Identidad, autonomía, reconocimiento de emociones, respeto y relaciones positivas.</p>
+    </article>
+    <article class="card blue">
+      <h4>🌱 Descubrimiento y Exploración del Entorno</h4>
+      <p>Observación de la diversidad, exploración de soluciones y cooperación ante pequeños retos.</p>
+    </article>
+    <article class="card blue">
+      <h4>💬 Comunicación y Representación de la Realidad</h4>
+      <p>Lenguaje oral, narración, expresión artística, imágenes y comunicación mediante distintos lenguajes.</p>
+    </article>
+  </div>
+
+  <h3>2. Descripción y finalidad</h3>
+  <p>La situación parte de una realidad cercana: en el aula cada niño y niña tiene gustos, capacidades, intereses y formas de comunicarse diferentes. A través de un reto compartido, el grupo descubrirá que la diversidad enriquece la convivencia y que podemos modificar nuestro entorno para facilitar la participación de todos.</p>
+  <p>Los saberes básicos se relacionan con la expresión y regulación emocional, la convivencia, el respeto a las diferencias, la comunicación oral, la creación artística y la exploración del entorno social.</p>
+
+  <h3>3. Objetivos didácticos</h3>
+  <ul>
+    <li>Reconocer y valorar las diferencias individuales sin establecer comparaciones negativas.</li>
+    <li>Identificar emociones propias y ajenas y expresarlas mediante distintos lenguajes.</li>
+    <li>Participar en actividades cooperativas respetando turnos, preferencias y ritmos.</li>
+    <li>Proponer soluciones para que los personajes de una historia puedan participar.</li>
+    <li>Comprender que la inteligencia artificial es una herramienta creada por personas y que sus resultados deben revisarse.</li>
+  </ul>
+
+  <h3>4. Metodología</h3>
+  <div class="grid">
+    <article class="card"><h4>🔎 Aprendizaje basado en proyectos</h4><p>Un reto inicial guía la investigación, la creación y el producto final.</p></article>
+    <article class="card"><h4>🧩 Diseño Universal para el Aprendizaje</h4><p>Distintas formas de acceder a la información, participar y expresar lo aprendido.</p></article>
+    <article class="card"><h4>👥 Cooperación y juego</h4><p>Conversaciones, materiales manipulativos, dramatización y decisiones compartidas.</p></article>
+    <article class="card"><h4>🤖 IA con supervisión docente</h4><p>Recursos adaptados a los objetivos, revisados por el docente y sin introducir datos personales del alumnado.</p></article>
+  </div>
+
+  <h3>5. Atención a la diversidad</h3>
+  <p>Se ofrecen apoyos visuales, instrucciones breves, anticipación de las actividades, alternativas de respuesta oral, gestual o gráfica, tiempos flexibles y diferentes niveles de ayuda. Se evita presentar la diversidad como un problema que haya que corregir.</p>
+
+  <div class="callout">
+    <strong>Principio fundamental:</strong> no es el niño quien debe encajar a toda costa en una única forma de aprender. Es la propuesta educativa la que debe ofrecer distintas vías de participación.
+  </div>
+</section>
+
+<section class="panel" id="actividades">
+  <h2>¡Manos a la obra!</h2>
+  <p class="intro">Cinco sesiones para imaginar, crear y aprender en equipo</p>
+
+  <details class="session" open>
+    <summary>Sesión 1 · El misterio de las diferencias (45 min)</summary>
+    <div class="session-content">
+      <span class="tag">Inicio</span><span class="tag">Asamblea</span>
+      <p><strong>Desarrollo:</strong> el docente presenta imágenes de personajes con diferentes gustos, características y formas de comunicarse. El grupo observa, describe y conversa sobre qué hace especial a cada uno.</p>
+      <p><strong>Preguntas guía:</strong> ¿Nos gustan a todos las mismas cosas? ¿Podemos jugar juntos aunque seamos diferentes? ¿Qué necesitamos para sentirnos bien?</p>
+      <p><strong>Recursos:</strong> tarjetas ilustradas, espejo, pictogramas de emociones y panel de ideas.</p>
+      <p><strong>Evidencia:</strong> aportaciones orales, gestuales o visuales y observación inicial.</p>
+    </div>
+  </details>
+
+  <details class="session">
+    <summary>Sesión 2 · Un cuento con sitio para todos (45 min)</summary>
+    <div class="session-content">
+      <span class="tag">Narración</span><span class="tag">Comprensión</span>
+      <p><strong>Desarrollo:</strong> el docente presenta un cuento original sobre un grupo de animales que quiere preparar una fiesta. Cada personaje aporta algo diferente, pero encuentran barreras para participar. El grupo propone cómo resolverlas.</p>
+      <p><strong>Recursos:</strong> cuento creado y revisado por el docente con apoyo de IA, imágenes accesibles y tarjetas de personajes.</p>
+      <p><strong>Evidencia:</strong> propuestas para resolver el conflicto y reconocimiento de emociones.</p>
+    </div>
+  </details>
+
+  <details class="session">
+    <summary>Sesión 3 · Inventamos soluciones (45 min)</summary>
+    <div class="session-content">
+      <span class="tag">Cooperación</span><span class="tag">Resolución de problemas</span>
+      <p><strong>Desarrollo:</strong> en pequeños grupos, los niños reciben situaciones ficticias: un personaje no entiende las instrucciones, otro necesita más tiempo o uno no puede acceder a un juego. Diseñan soluciones con dibujos, construcciones o dramatizaciones.</p>
+      <p><strong>Recursos:</strong> bloques, muñecos, tarjetas visuales, papel y material reutilizable.</p>
+      <p><strong>Evidencia:</strong> representación de una solución y participación en el grupo.</p>
+    </div>
+  </details>
+
+  <details class="session">
+    <summary>Sesión 4 · Creamos nuestro cuento (45 min)</summary>
+    <div class="session-content">
+      <span class="tag">Creación artística</span><span class="tag">Lenguaje</span>
+      <p><strong>Desarrollo:</strong> la clase decide el título, los personajes, el problema y el final. El docente puede utilizar IA para generar ilustraciones a partir de descripciones acordadas por los niños. Revisa las imágenes para evitar estereotipos y garantizar que sean adecuadas.</p>
+      <p><strong>Recursos:</strong> papel, ceras, plantillas, imágenes impresas y herramienta de IA utilizada exclusivamente por el adulto.</p>
+      <p><strong>Evidencia:</strong> páginas del cuento, dibujos y decisiones compartidas.</p>
+    </div>
+  </details>
+
+  <details class="session">
+    <summary>Sesión 5 · En nuestra clase cabemos todos (45 min)</summary>
+    <div class="session-content">
+      <span class="tag">Producto final</span><span class="tag">Reflexión</span>
+      <p><strong>Desarrollo:</strong> se presenta el cuento colectivo y se construye un mural con dibujos y acuerdos para convivir. Cada niño comparte, según sus posibilidades, algo que puede aportar al grupo y una forma de ayudar a los demás.</p>
+      <p><strong>Recursos:</strong> cuento terminado, cartulina, dibujos, pictogramas y pegatinas.</p>
+      <p><strong>Evidencia:</strong> cuento, mural, participación y autoevaluación visual.</p>
+    </div>
+  </details>
+
+  <h3>Mini actividad interactiva</h3>
+  <div class="activity">
+    <p><strong>Un personaje quiere participar en un juego, pero necesita que le expliquen las reglas de otra manera. ¿Qué hacemos?</strong></p>
+    <div class="options">
+      <button class="answer" onclick="quiz(this,false)">A. Le decimos que juegue en otro momento.</button>
+      <button class="answer" onclick="quiz(this,true)">B. Buscamos otra forma de explicar las reglas para que pueda participar.</button>
+      <button class="answer" onclick="quiz(this,false)">C. Decidimos por él sin preguntarle qué necesita.</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+
+  <div class="activity">
+    <p><strong>¿Quién utiliza la IA para preparar los materiales de esta propuesta?</strong></p>
+    <div class="options">
+      <button class="answer" onclick="quiz(this,true)">A. El docente, revisando los resultados antes de utilizarlos.</button>
+      <button class="answer" onclick="quiz(this,false)">B. La IA decide sola qué necesita cada niño.</button>
+      <button class="answer" onclick="quiz(this,false)">C. La IA sustituye al docente durante las actividades.</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="panel" id="evaluacion">
+  <h2>Evaluamos para seguir aprendiendo</h2>
+  <p class="intro">La evaluación es continua, formativa, global y adaptada a las posibilidades de cada niño.</p>
+
+  <h3>Instrumentos de evaluación</h3>
+  <div class="grid">
+    <article class="card"><h4>👀 Observación directa</h4><p>Registro de la participación, la interacción, la comunicación y las estrategias de cooperación.</p></article>
+    <article class="card"><h4>📂 Análisis de producciones</h4><p>Revisión de dibujos, propuestas, páginas del cuento y mural colectivo.</p></article>
+    <article class="card"><h4>😊 Autoevaluación visual</h4><p>Tarjetas con expresiones para comunicar cómo se han sentido y qué han aprendido.</p></article>
+    <article class="card"><h4>🤝 Coevaluación</h4><p>Conversación guiada sobre cómo ha colaborado el grupo y qué puede mejorar.</p></article>
+  </div>
+
+  <h3>Lista de cotejo docente</h3>
+  <p class="small">Marca los indicadores que se hayan observado. Se pueden registrar avances y apoyos necesarios, sin convertir la lista en una clasificación de los niños.</p>
+  <div class="card checklist" id="checklist">
+    <label><input type="checkbox"> Reconoce o respeta diferencias entre las personas.</label>
+    <label><input type="checkbox"> Expresa emociones, necesidades o preferencias por algún medio.</label>
+    <label><input type="checkbox"> Participa en alguna decisión compartida.</label>
+    <label><input type="checkbox"> Propone o acepta una solución para facilitar la participación.</label>
+    <label><input type="checkbox"> Utiliza materiales y apoyos de acuerdo con sus necesidades.</label>
+    <label><input type="checkbox"> Comprende, con ayuda, que las imágenes o propuestas creadas con IA deben ser revisadas por una persona adulta.</label>
+  </div>
+  <p id="progress" class="small" aria-live="polite">Indicadores marcados: 0 de 6.</p>
+  <button class="btn" onclick="resetChecklist()">Reiniciar lista</button>
+
+  <h3 style="margin-top:25px">Criterios de evaluación</h3>
+  <ul>
+    <li>Participa progresivamente en situaciones de convivencia y cooperación.</li>
+    <li>Comunica emociones, ideas y necesidades utilizando diferentes formas de expresión.</li>
+    <li>Muestra actitudes de respeto hacia las diferencias individuales.</li>
+    <li>Contribuye, según sus posibilidades, a la creación de una producción colectiva.</li>
+  </ul>
+  <p class="small">Los criterios definitivos deben concretarse y vincularse al currículo autonómico vigente y a la programación del centro.</p>
+</section>
+
+<section class="panel" id="anexos">
+  <h2>Materiales y anexos</h2>
+  <p class="intro">Recursos para llevar la propuesta al aula</p>
+
+  <div class="grid">
+    <article class="card">
+      <div class="emoji">🎭</div>
+      <h3>Anexo 1. Tarjetas de personajes</h3>
+      <p>Personajes ficticios con distintos intereses, fortalezas, preferencias y formas de comunicarse.</p>
+    </article>
+    <article class="card">
+      <div class="emoji">😊</div>
+      <h3>Anexo 2. Tarjetas de emociones</h3>
+      <p>Alegría, tristeza, miedo, enfado, calma y sorpresa para apoyar la comunicación emocional.</p>
+    </article>
+    <article class="card">
+      <div class="emoji">📖</div>
+      <h3>Anexo 3. Plantilla del cuento</h3>
+      <p>¿Quién protagoniza la historia? ¿Qué problema encuentra? ¿Cómo colaboran? ¿Cómo termina?</p>
+    </article>
+    <article class="card">
+      <div class="emoji">☑️</div>
+      <h3>Anexo 4. Instrumentos</h3>
+      <p>Lista de cotejo docente, registro de observación y tarjetas de autoevaluación infantil.</p>
+    </article>
+  </div>
+
+  <h3>Ejemplo de instrucción para la IA</h3>
+  <div class="callout">
+    «Crea una propuesta de cuento infantil original para niños de 4-5 años sobre la inclusión y la cooperación. Incluye personajes con distintas fortalezas y formas de comunicarse. Plantea una barrera del entorno que el grupo pueda resolver colaborativamente. Utiliza lenguaje sencillo, situaciones respetuosas y un final en el que todos puedan participar. Evita estereotipos y no presentes ninguna diferencia como algo negativo».
+  </div>
+  <p><strong>Uso responsable:</strong> la IA es un apoyo para el diseño de recursos, no una autoridad pedagógica. El docente revisa los textos y las imágenes, comprueba su adecuación y protege la privacidad del alumnado.</p>
+</section>
+
+<section class="panel" id="reflexion">
+  <h2>¿Qué hemos aprendido?</h2>
+  <p class="intro">Una última parada para pensar sobre nuestra experiencia</p>
+
+  <div class="grid">
+    <article class="card soft"><div class="emoji">💛</div><h3>Sobre nosotros</h3><p>Todas las personas tenemos fortalezas, necesidades e intereses diferentes.</p></article>
+    <article class="card soft"><div class="emoji">🤝</div><h3>Sobre convivir</h3><p>Escuchar, colaborar y ofrecer distintas formas de participar ayuda a construir un aula inclusiva.</p></article>
+    <article class="card soft"><div class="emoji">🤖</div><h3>Sobre la tecnología</h3><p>La IA puede ayudarnos a crear recursos, pero las personas debemos revisar sus resultados y decidir cómo utilizarlos.</p></article>
+  </div>
+
+  <h3>Mi reflexión final</h3>
+  <p>Escribe una reflexión sobre lo que has aprendido con esta propuesta. Este espacio sirve para reflexionar durante la actividad; no almacena ni envía las respuestas.</p>
+  <label for="reflection"><strong>¿Qué harías para que todos los niños y niñas pudieran participar?</strong></label>
+  <textarea id="reflection" placeholder="Escribe aquí tus ideas..."></textarea>
+  <p><button class="btn primary" onclick="downloadReflection()">Descargar mi reflexión</button></p>
+  <div class="callout">
+    <strong>La idea que nos llevamos:</strong> la inclusión no consiste en que todos hagamos lo mismo de la misma manera, sino en que todos tengamos oportunidades reales de participar y aprender.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Situación de aprendizaje · Educación Infantil · Inteligencia artificial e inclusión educativa</p>
+  <p>Propuesta didáctica orientativa. Adaptar al contexto del aula y al currículo autonómico vigente.</p>
+</footer>
+
+<script>
+const tabs = document.querySelectorAll('nav button');
+const panels = document.querySelectorAll('.panel');
+
+function showTab(id) {
+  panels.forEach(panel => panel.classList.toggle('active', panel.id === id));
+  tabs.forEach(button => button.classList.toggle('active', button.dataset.tab === id));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+tabs.forEach(button => button.addEventListener('click', () => showTab(button.dataset.tab)));
+
+function quiz(button, correct) {
+  const activity = button.closest('.activity');
+  activity.querySelectorAll('.answer').forEach(answer => {
+    answer.disabled = true;
+  });
+  const feedback = activity.querySelector('.feedback');
+  feedback.textContent = correct
+    ? '¡Muy bien! La inclusión consiste en buscar formas de facilitar la participación.'
+    : 'Prueba otra vez en tu reflexión: debemos escuchar, respetar y buscar soluciones inclusivas.';
+  feedback.className = 'feedback ' + (correct ? 'good' : 'bad');
+  if (!correct) {
+    activity.querySelectorAll('.answer').forEach(answer => answer.disabled = false);
+  }
+}
+
+const checklist = document.querySelectorAll('#checklist input');
+function updateProgress() {
+  const checked = [...checklist].filter(item => item.checked).length;
+  document.getElementById('progress').textContent =
+    `Indicadores marcados: ${checked} de ${checklist.length}.`;
+}
+checklist.forEach(item => item.addEventListener('change', updateProgress));
+
+function resetChecklist() {
+  checklist.forEach(item => item.checked = false);
+  updateProgress();
+}
+
+function downloadReflection() {
+  const content = document.getElementById('reflection').value.trim();
+  if (!content) {
+    alert('Escribe primero tu reflexión.');
+    return;
+  }
+  const blob = new Blob(
+    ['Mi reflexión sobre la inclusión educativa\n\n' + content],
+    { type: 'text/plain;charset=utf-8' }
+  );
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'mi-reflexion-inclusion.txt';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
